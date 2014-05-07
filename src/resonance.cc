@@ -110,7 +110,7 @@ double Resonance::zemach( const PhaseSpace& ps, const double& mSqAB, const doubl
   const double& diffSqAB = ps.mSq( _resoA ) - ps.mSq( _resoB );
 
   // Zemach tensor for l = 1.
-  const double& zemach1  = mSqAC - mSqBC - diffSqMC * diffSqAB / mSqAB;
+  const double& zemach1  = mSqAC - mSqBC - diffSqMC * diffSqAB / mSq();
 
   if ( _l == 1 )
     return zemach1;
@@ -121,8 +121,8 @@ double Resonance::zemach( const PhaseSpace& ps, const double& mSqAB, const doubl
       const double& sumSqMC = ps.mSqMother()   + ps.mSq( _noRes );
       const double& sumSqAB = ps.mSq( _resoA ) + ps.mSq( _resoB );
 
-      double first  = mSqAB - 2. * sumSqMC + std::pow( diffSqMC, 2 ) / mSqAB;
-      double second = mSqAB - 2. * sumSqAB + std::pow( diffSqAB, 2 ) / mSqAB;
+      double first  = mSqAB - 2. * sumSqMC + std::pow( diffSqMC, 2 ) / mSq();
+      double second = mSqAB - 2. * sumSqAB + std::pow( diffSqAB, 2 ) / mSq();
 
       return std::pow( zemach1, 2 ) - first * second / 3.;
     }
