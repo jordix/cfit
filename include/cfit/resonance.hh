@@ -72,10 +72,15 @@ public:
   double                 q                  ( const PhaseSpace& ps, const double& mSqAB )                     const;
   double                 qSq                ( const PhaseSpace& ps, const double& mSqAB )                     const;
 
+  // Momentum of the non-resonant particle in the rest frame of the resonant pair.
+  double                 p                  ( const PhaseSpace& ps, const double& mSqAB )                     const;
+  double                 pSq                ( const PhaseSpace& ps, const double& mSqAB )                     const;
+
   // Phase space factor, equal to 2q/m.
   double                 rho                ( const PhaseSpace& ps, const double& mSqAB )                     const;
   double                 runningWidth       ( const PhaseSpace& ps, const double& mSqAB )                     const;
   double                 blattWeisskopfPrime( const PhaseSpace& ps, const double& mSqAB )                     const;
+  double                 blattWeisskopfPrimeP( const PhaseSpace& ps, const double& mSqAB ) const;
   double                 blattWeisskopf     ( const PhaseSpace& ps, const double& mSqAB )                     const;
   double                 zemach             ( const PhaseSpace& ps,
                                               const double&     mSqAB,
