@@ -16,6 +16,8 @@ class Minimizer : public FCNBase
 protected:
   PdfBase&        _pdf;
   const Dataset&  _data;
+  std::map< unsigned, std::vector< double >                 > _cacheR;
+  std::map< unsigned, std::vector< std::complex< double > > > _cacheC;
 
   // Minimizer variation to produce uncertaities at a given number of sigmas.
   //    Notice that, if the user wants n-sigma uncertainties, up = n^2.
@@ -34,6 +36,15 @@ public:
 
   // Setters.
   void setUp( const double& up ) { _up = up; }
+
+  void cache()
+  {
+    const std::map< unsigned, std::vector< double >                 >& cachedR = _pdf.cacheReal   ( _data );
+    const std::map< unsigned, std::vector< std::complex< double > > >& cachedC = _pdf.cacheComplex( _data );
+
+    _cacheR.insert( cachedR.begin(), cachedR.end() );
+    _cacheC.insert( cachedC.begin(), cachedC.end() );
+  }
 
   FunctionMinimum minimize() const;
 };

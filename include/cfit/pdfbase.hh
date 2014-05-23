@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <complex>
 #include <algorithm>
 
 #include <cfit/variable.hh>
@@ -12,6 +13,7 @@
 #include <cfit/functors.hh>
 
 
+class Dataset;
 class Region;
 
 class PdfBase
@@ -19,6 +21,9 @@ class PdfBase
 protected:
   std::map< std::string, Variable  > _varMap;
   std::map< std::string, Parameter > _parMap;
+
+  static unsigned _cacheIdxReal;
+  static unsigned _cacheIdxComplex;
 
 public:
   virtual ~PdfBase() {}
@@ -45,6 +50,10 @@ public:
   //    all points (usually compute the norm).
   virtual void cache() = 0;
 
+  // Make a dataset available to a pdf such that it can compute values to be cached.
+  virtual const std::map< unsigned, std::vector< double >                 > cacheReal   ( const Dataset& data ) {};
+  virtual const std::map< unsigned, std::vector< std::complex< double > > > cacheComplex( const Dataset& data ) {};
+
   // Evaluate functions.
   virtual const double evaluate()                                    const throw( PdfException ) = 0; // For variables already set. To be obsolete.
   virtual const double evaluate( const std::vector< double >& vars ) const throw( PdfException ) = 0; // For any pdf.
@@ -52,6 +61,10 @@ public:
   {
     throw PdfException( "PdfBase::evaluate: evaluate( value ) has been called on a pdf with more than one variable." );
   }
+
+  virtual const double evaluate( const std::vector< double                 >& vars,
+                                 const std::vector< double                 >&     ,
+                                 const std::vector< std::complex< double > >&       ) const throw( PdfException ) = 0;
 
   virtual const std::map< std::string, double > generate()           const throw( PdfException ) = 0;
 

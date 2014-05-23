@@ -44,12 +44,26 @@ public:
   virtual void setPars( const std::map< std::string, Parameter >& pars ) throw( PdfException );
   virtual void setPars( const FunctionMinimum&                    min  ) throw( PdfException );
 
-  virtual       void   cache() {};
+  typedef std::map< unsigned, std::vector< double >                 > mapUVD;
+  typedef std::map< unsigned, std::vector< std::complex< double > > > mapUVC;
+
+  virtual       void   cache()                                             {} // If a pdf model does not implement
+  // virtual const mapUVD cacheReal   ( const Dataset& data )           const {} //     these functions, do nothing.
+  // virtual const mapUVC cacheComplex( const Dataset& data )           const {} //
   virtual const double evaluate()                                    const throw( PdfException ) = 0;
   virtual const double evaluate( const std::vector< double >& vars ) const throw( PdfException ) = 0;
   virtual const double evaluate( const double& value )               const throw( PdfException ) // For pdfs of a single variable.
   {
     throw PdfException( "PdfModel::evaluate: evaluate( value ) has been called on a pdf with more than one variable." );
+  }
+
+  // If a pdf model does not implement this function it's because it does not need to use cached values.
+  //    Default to the standard evaluate function.
+  virtual const double evaluate( const std::vector< double                 >& vars,
+                                 const std::vector< double                 >&     ,
+                                 const std::vector< std::complex< double > >&       ) const throw( PdfException )
+  {
+    return evaluate( vars );
   }
 
   virtual const std::map< std::string, double > generate()           const throw( PdfException )

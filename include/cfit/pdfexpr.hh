@@ -76,6 +76,10 @@ public:
   const double evaluate( const std::vector< double >& vars ) const throw( PdfException );
 
   const std::map< std::string, double > generate() const throw( PdfException );
+  const double evaluate( const std::vector< double                 >& vars  ,
+                         const std::vector< double                 >& cacheR,
+                         const std::vector< std::complex< double > >& cacheC  ) const throw( PdfException )
+    {}
 
   const double project( const std::string& varName,
                         const double&      value    ) const throw( PdfException );
